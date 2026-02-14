@@ -194,24 +194,36 @@
         showPage(4);
     }
 
-    function finalAnimationSequence() {
+        function finalAnimationSequence() {
         const overlay = document.getElementById("hugOverlay");
         const emoji = document.getElementById("emojiDisplay");
         overlay.style.display = "flex";
+
+        // Step 1: Show the Hug (🫂) with zoom animation
         emoji.innerHTML = "🫂";
         emoji.className = "zoom-anim";
+
+        // Step 2: After 2.5 seconds, switch to Kiss (😘)
         setTimeout(() => {
-            emoji.innerHTML = "😘";
-            emoji.className = "zoom-anim";
-            triggerFly('💋');
+            emoji.innerHTML = "😘"; 
+            
+            // This part forces the zoom animation to restart for the Kiss
+            emoji.classList.remove("zoom-anim");
+            void emoji.offsetWidth; // This "magic" line triggers the refresh
+            emoji.classList.add("zoom-anim");
+            
+            triggerFly('💋'); // Flying lipmarks
+
+            // Step 3: Final message after another 2.5 seconds
             setTimeout(() => {
                 overlay.style.display = "none";
                 const btn = document.getElementById("finalBtn");
-                btn.innerHTML = "I love you so soo muchhhh Machaa😚";
+                btn.innerHTML = "I love you so much, my everything! 😚";
                 btn.onclick = () => location.reload(); 
             }, 2500);
         }, 2500);
     }
+
 
     function openZoom(src, imgKey) {
         document.getElementById("modal").style.display = "flex";
