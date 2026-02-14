@@ -5,73 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🤍For My Habibi💜</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: "Georgia", serif;
-            background: linear-gradient(135deg, #f3e5f5, #e1bee7, #ce93d8);
-            color: purple;
-        }
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100vh;
-            display: none;
-            text-align: center;
-            padding-top: 30px;
-            overflow-y: auto;
-        }
+        body { margin: 0; overflow: hidden; font-family: "Georgia", serif; background: linear-gradient(135deg, #f3e5f5, #e1bee7, #ce93d8); color: purple; }
+        .page { position: absolute; width: 100%; height: 100vh; display: none; text-align: center; padding-top: 30px; overflow-y: auto; z-index: 10; }
         .active { display: block; animation: fadePage 1.2s ease-in-out; }
         @keyframes fadePage { from { opacity: 0; } to { opacity: 1; } }
         
-        .typing {
-            font-size: 21px;
-            line-height: 1.5;
-            text-shadow: 1px 1px 5px white;
-            width: 85%;
-            margin: auto;
-            white-space: pre-wrap;
+        /* Rose Petal Style */
+        .petal {
+            position: fixed;
+            top: -10px;
+            color: #ff69b4; /* Rose Pink color */
+            font-size: 20px;
+            user-select: none;
+            z-index: 100;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
+        .typing { font-size: 21px; line-height: 1.5; text-shadow: 1px 1px 5px white; width: 85%; margin: auto; white-space: pre-wrap; }
         .btn-container { margin-top: 30px; position: relative; height: 150px; }
-        .next-btn, #noBtn {
-            padding: 12px 28px;
-            font-size: 18px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+        .next-btn, #noBtn { padding: 12px 28px; font-size: 18px; border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; }
         .next-btn { background: purple; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; }
         #noBtn { background: #ddd; color: purple; }
 
-        #letterContainer {
-            display: none;
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1000;
-        }
+        #letterContainer { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1000; }
         .letter-icon { font-size: 150px; cursor: pointer; animation: bounce 2s infinite; display: block; }
         .click-me { font-size: 22px; font-weight: bold; color: purple; margin-top: -10px; display: block; }
         @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
         .gallery-container { max-width: 500px; margin: auto; padding: 20px; padding-bottom: 80px; }
-        .image-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            justify-items: center;
-        }
-        .image-grid img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        .image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; justify-items: center; }
+        .image-grid img { width: 100%; height: 230px; object-fit: cover; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         #modal { display: none; position: fixed; z-index: 6000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); flex-direction: column; justify-content: center; align-items: center; }
         #modal img { max-width: 85%; max-height: 65%; border-radius: 10px; border: 3px solid white; }
@@ -81,11 +48,7 @@
         .fly-emoji { position: fixed; bottom: -50px; font-size: 35px; animation: floatUp 4s linear forwards; z-index: 5000; }
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
 
-        #hugOverlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(255,255,255,0.9); z-index: 4500; 
-            justify-content: center; align-items: center; font-size: 150px; 
-        }
+        #hugOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 4500; justify-content: center; align-items: center; font-size: 150px; }
         .zoom-anim { animation: zoomInOut 2.5s ease-in-out forwards; }
         @keyframes zoomInOut { 0% { transform: scale(0.1); opacity: 0; } 50% { transform: scale(1.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
     </style>
@@ -105,15 +68,13 @@
     <span class="click-me">Click Ma🤭</span>
 </div>
 
-<div id="hugOverlay">
-    <div id="emojiDisplay">🫂</div>
-</div>
+<div id="hugOverlay"><div id="emojiDisplay">🫂</div></div>
 
 <div class="page active" id="page1">
     <div class="typing" id="text1"></div>
     <div class="btn-container">
         <button class="next-btn" id="btn1" onmouseover="moveYes()" onclick="startEverything()" style="display:inline-block;">Yes 💜</button>
-        <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+        <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 🙈</button>
     </div>
 </div>
 
@@ -124,7 +85,7 @@
 
 <div class="page" id="page3">
     <div class="typing" id="text3"></div>
-    <button class="next-btn" id="btn3" onclick="triggerFly('🥹'); triggerFly('😘'); triggerFly('💋'); showLetter()">See Our Memories🥹✨</button>
+    <button class="next-btn" id="btn3" onclick="triggerFly('🥹'); triggerFly('😘'); triggerFly('💋'); showLetter()">See Our Memories🥹 ✨</button>
 </div>
 
 <div class="page" id="page4">
@@ -147,13 +108,27 @@
     const notes = {
         'image1': "The moment Allah destined our souls to meet...🤍💍💜",
         'image2': "Your peace is my favorite place in this entire world...🫶✨🤗",
-        'image3': "You are the greatest blessing I have ever received. More than the love I have for you, it’s the way you care for me that makes me fall for you deeper every day , I feel so safe and happy with you, my King...🤴💜",
-        'image4': "Every time I pray, I thank Allah for choosing YOU to be my partner👩🏼‍❤️‍👨🏼. You are the answer to all my prayers...🫂🤲💖",
+        'image3': "You are the greatest blessing I have ever received✨More than the love I have for you, it’s the way you care for me that makes me fall for you deeper every day👩🏼‍❤️‍👨🏼I feel so safe and happy with you, my King!...🤴💜",
+        'image4': "Every time I pray🤲 I thank Allah for choosing YOU to be my partner💍 You are the answer to all my prayers...🫂🤲💖",
         'image5': "I dream of a home filled with our laughter, raising our babies together in a life full of happiness. To our beautiful future, In sha Allah...🫂👶🌍",
-        'image6': "I don't just want to grow old with you in this world ,I want to walk through the gates of Jannah with you, hand in hand, for all of eternity...😘♾️🤝"
+        'image6': "don't just want to grow old with you in this world,I want to walk through the gates of Jannah with you, hand in hand, for all of eternity...😘♾️"
     };
 
-    let yesCount = 0, noCount = 0;
+    // 1. Rose Petal Falling Logic
+    function createPetal() {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerHTML = "🌸"; // You can use 🌹 or 🌸
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = Math.random() * 3 + 4 + "s";
+        petal.style.opacity = Math.random();
+        petal.style.fontSize = Math.random() * 10 + 15 + "px";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 7000);
+    }
+    setInterval(createPetal, 300); // Continuous falling
+
+    let yesCount = 0;
 
     function typeEffect(id, text, btnId) {
         let i = 0; let element = document.getElementById(id); let btn = document.getElementById(btnId);
@@ -176,7 +151,10 @@
         const targetPage = document.getElementById('page' + pageNumber);
         if(targetPage) targetPage.classList.add('active');
         if (pageNumber === 2) typeEffect("text2", "Since you came into my life🫂, everything became more beautiful😘💕. <br>You are my peace🥰, my happiness🥹, my forever💕😘", "btn2");
-        if (pageNumber === 3) typeEffect("text3", "You are the calm in my chaos😘 and the smile in my every day🥰 <br><br>In a world full of temporary things🫂, you are my forever💕 <br><br>I don't just want you in this life in Akhirah & I want you in Jannah too🥹✨ I pray that Allah blesses our journey and grants us a home filled with happiness, where we grow together and raise our babies 🫂 with a love that leads us both to Jannah. 🤲 <br><br>Even in Paradise🫶, among all its wonders, my eyes will still only look for you. I want to walk through the gates of Jannah together, hand in hand🤝, loving you for all of eternity machaaa😘🥰.", "btn3");
+        if (pageNumber === 3) typeEffect("text3", "You are the calm in my chaos😘 and the smile in my every day🥰 <br><br>" +
+                "In a world full of temporary things🫂, you are my forever💕 <br><br>" +
+                "I don't just want you in this life in AkhirahI want you in Jannah too ✨ I pray that Allah blesses our journey and grants us a home filled with happiness, where we grow together and raise our babies 🫂 with a love that leads us both to Jannah. 🤲 <br><br>" +
+                "Even in Paradise🫶, among all its wonders, my eyes will still only look for you. I want to walk through the gates of Jannah together, hand in hand🤝, loving you for all of eternity💫chloo😘", "btn3");
     }
 
     function moveYes() {
@@ -188,17 +166,16 @@
     }
 
     function moveNo() {
+        alert("You must choose YES only! 😡 No option is not allowed! 🙅‍♀️🏃💨");
         let b = document.getElementById("noBtn");
-        noCount++;
-        if (noCount === 1) { b.style.position = "absolute"; b.style.left = "75vw"; b.style.top = "10vh"; }
-        else if (noCount === 2) { b.style.position = "absolute"; b.style.left = "10vw"; b.style.top = "5vh"; }
-        else if (noCount === 3) { b.style.position = "absolute"; b.style.left = "20vw"; b.style.top = "80vh"; }
-        else if (noCount === 4) { b.style.position = "absolute"; b.style.left = "65vw"; b.style.top = "75vh"; }
-        else { b.style.position = "relative"; b.style.left = "0"; b.style.top = "0"; noCount = 0; }
+        let x = Math.random() * (window.innerWidth - b.offsetWidth);
+        let y = Math.random() * (window.innerHeight - b.offsetHeight);
+        b.style.position = "absolute";
+        b.style.left = x + "px"; b.style.top = y + "px";
     }
 
     function triggerFly(emoji) {
-        for(let i=0; i<35; i++) { // Increased for full screen spread
+        for(let i=0; i<35; i++) {
             let e = document.createElement("div"); e.classList.add("fly-emoji");
             e.innerHTML = emoji; e.style.left = Math.random() * 95 + "vw";
             e.style.animationDelay = Math.random() * 3 + "s";
@@ -221,21 +198,12 @@
         const overlay = document.getElementById("hugOverlay");
         const emoji = document.getElementById("emojiDisplay");
         overlay.style.display = "flex";
-
-        // Hug Zoom
         emoji.innerHTML = "🫂";
         emoji.className = "zoom-anim";
-
         setTimeout(() => {
-            // Kiss Zoom
             emoji.innerHTML = "😘";
-            emoji.className = ""; 
-            void emoji.offsetWidth; 
             emoji.className = "zoom-anim";
-            
-            // Lipmarks Spread Full Screen
             triggerFly('💋');
-
             setTimeout(() => {
                 overlay.style.display = "none";
                 const btn = document.getElementById("finalBtn");
@@ -254,6 +222,8 @@
 </script>
 </body>
 </html>
+
+
 
 
 
