@@ -6,24 +6,28 @@
     <title>🤍For My Habibi💜</title>
     <style>
         body { margin: 0; overflow: hidden; font-family: "Georgia", serif; background: linear-gradient(135deg, #f3e5f5, #e1bee7, #ce93d8); color: purple; }
-        .page { position: absolute; width: 100%; height: 100vh; display: none; text-align: center; padding-top: 30px; overflow-y: auto; z-index: 10; }
+        
+        /* Top Header Box */
+        .header-box {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            border: 2px solid white;
+            border-radius: 20px;
+            padding: 10px 25px;
+            display: inline-block;
+            margin: 10px auto;
+            font-size: 20px;
+            font-weight: bold;
+            color: #6a1b9a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .page { position: absolute; width: 100%; height: 100vh; display: none; text-align: center; padding-top: 80px; overflow-y: auto; z-index: 10; }
         .active { display: block; animation: fadePage 1.2s ease-in-out; }
         @keyframes fadePage { from { opacity: 0; } to { opacity: 1; } }
         
-        /* Rose Petal Style */
-        .petal {
-            position: fixed;
-            top: -10px;
-            color: #ff69b4; /* Rose Pink color */
-            font-size: 20px;
-            user-select: none;
-            z-index: 100;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
+        .petal { position: fixed; top: -10px; color: #ff69b4; font-size: 20px; user-select: none; z-index: 100; pointer-events: none; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
         .typing { font-size: 21px; line-height: 1.5; text-shadow: 1px 1px 5px white; width: 85%; margin: auto; white-space: pre-wrap; }
         .btn-container { margin-top: 30px; position: relative; height: 150px; }
@@ -36,12 +40,27 @@
         .click-me { font-size: 22px; font-weight: bold; color: purple; margin-top: -10px; display: block; }
         @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
+        /* Popups (Blue Note & Failed Box) */
+        #blueNotePopup, #failedPopup { 
+            display: none; position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); padding: 40px 30px; 
+            border-radius: 15px; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            width: 80%; max-width: 400px; text-align: center; 
+        }
+        #blueNotePopup { background-color: #e0f7fa; border: 2px solid #81d4fa; }
+        #failedPopup { background-color: #ffebee; border: 2px solid #ef5350; }
+        
+        #blueNotePopup p, #failedPopup p { color: black; font-size: 24px; font-weight: bold; margin: 0; }
+        .popup-btns { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+        .p-btn { padding: 10px 20px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .p-yes { background: #6a1b9a; color: white; }
+        .p-no { background: #ddd; color: #6a1b9a; }
+
         .gallery-container { max-width: 500px; margin: auto; padding: 20px; padding-bottom: 80px; }
         .image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; justify-items: center; }
         .image-grid img { width: 100%; height: 230px; object-fit: cover; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .promise-msg { font-size: 19px; font-style: italic; color: #6a1b9a; margin-top: 25px; font-weight: bold; text-shadow: 1px 1px 2px white; }
+        .promise-msg { font-size: 19px; font-style: italic; color: #6a1b9a; margin-top: 25px; font-weight: bold; }
         
-
         #modal { display: none; position: fixed; z-index: 6000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); flex-direction: column; justify-content: center; align-items: center; }
         #modal img { max-width: 85%; max-height: 65%; border-radius: 10px; border: 3px solid white; }
         #modalNote { color: white; font-size: 20px; margin-top: 15px; text-align: center; width: 85%; }
@@ -50,7 +69,7 @@
         .fly-emoji { position: fixed; bottom: -50px; font-size: 35px; animation: floatUp 4s linear forwards; z-index: 5000; }
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
 
-        #hugOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 4500; justify-content: center; align-items: center; font-size: 150px; }
+        #hugOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 4500; justify-content: center; align-items: center; font-size: 150px; flex-direction: column; }
         .zoom-anim { animation: zoomInOut 2.5s ease-in-out forwards; }
         @keyframes zoomInOut { 0% { transform: scale(0.1); opacity: 0; } 50% { transform: scale(1.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
     </style>
@@ -59,10 +78,30 @@
 
 <audio id="nasheedAudio" loop><source src="nasheed.mp3" type="audio/mpeg"></audio>
 
+<div style="text-align: center; width: 100%; position: absolute; top: 10px; z-index: 100;">
+    <div class="header-box">🤍 For My Habibi 💜</div>
+</div>
+
 <div id="modal">
     <span class="close-modal" onclick="closeZoom()">&times;</span>
     <img id="modalImg">
     <div id="modalNote"></div>
+</div>
+
+<div id="blueNotePopup">
+    <p>To my 'One & Only Noor Pie...🫵🌙😚'</p>
+    <br>
+    <small style="color: black; font-weight: bold;">What happened, Noor Pie? Shocked? 🤭 Shall we move to the next one, baby?!</small>
+    <div class="popup-btns">
+        <button class="p-btn p-yes" onclick="goToMemories()">Yeah baby😚</button>
+        <button class="p-btn p-no" onclick="showFailedPopup()">No baby😏</button>
+    </div>
+</div>
+
+<div id="failedPopup">
+    <p style="color: #b71c1c;">🤨 YOU FAILED! ❌</p>
+    <p style="font-size: 18px; margin-top: 15px; color: black;">Noor Pie 🙅‍♀️,This option is closed 🤭 for you </p>
+    <button class="p-btn p-yes" style="margin-top: 20px; background: #b71c1c;" onclick="backToBlueNote()"> so Try Again😝 </button>
 </div>
 
 <div id="letterContainer">
@@ -101,8 +140,8 @@
             <img src="love5.jpg" onclick="openZoom(this.src, 'image5')">
             <img src="love6.jpg" onclick="openZoom(this.src, 'image6')">
         </div>
-        <div class="promise-msg">This is just the beginning of our beautiful memories. In sha Allah, we will create more memories together...🤍👩‍❤️‍👨💜</div>
-        <button onclick="finalAnimationSequence()" class="next-btn" id="finalBtn" style="display:inline-block; margin-top: 40px;">Huge Hug for You!🫵🫂</button>
+        <div class="promise-msg">This is just the beginning of our beautiful memories😚 In sha Allah, we will create more memories together...🤍👩‍❤️‍👨💜</div>
+        <button onclick="finalAnimationSequence()" class="next-btn" id="finalBtn" style="display:inline-block; margin-top: 40px;">This is for You!🫵🫂</button>
     </div>
 </div>
 
@@ -111,17 +150,16 @@
     const notes = {
         'image1': "The moment Allah destined our souls to meet...🤍💍💜",
         'image2': "Your peace is my favorite place in this entire world...🫶✨🤗",
-        'image3': "You are the greatest blessing I have ever received✨More than the love I have for you, it’s the way you care for me that makes me fall for you deeper every day👩🏼‍❤️‍👨🏼I feel so safe and happy with you, my King!...🤴💜",
+        'image3': "You are the greatest blessing I have ever received✨ More than the love I have for you, it’s the way you care for me that makes me fall for you deeper every day👩🏼‍❤️‍👨🏼 I feel so safe and happy with you, my King!...🫵🤴💜",
         'image4': "Every time I pray🤲 I thank Allah for choosing YOU to be my partner💍 You are the answer to all my prayers...🫂🤲💖",
         'image5': "I dream of a home filled with our laughter, raising our babies together in a life full of happiness. To our beautiful future, In sha Allah...🫂👶🌍",
-        'image6': "don't just want to grow old with you in this world,I want to walk through the gates of Jannah with you, hand in hand, for all of eternity...😘♾️"
+        'image6': "don't just want to grow old with you in this world,I want to walk through the gates of Jannah with you, hand in hand, for all of eternity...💓😘♾️"
     };
 
-    // 1. Rose Petal Falling Logic
     function createPetal() {
         const petal = document.createElement("div");
         petal.classList.add("petal");
-        petal.innerHTML = "🌸"; // You can use 🌹 or 🌸
+        petal.innerHTML = "🌸"; 
         petal.style.left = Math.random() * 100 + "vw";
         petal.style.animationDuration = Math.random() * 3 + 4 + "s";
         petal.style.opacity = Math.random();
@@ -129,7 +167,7 @@
         document.body.appendChild(petal);
         setTimeout(() => petal.remove(), 7000);
     }
-    setInterval(createPetal, 300); // Continuous falling
+    setInterval(createPetal, 300);
 
     let yesCount = 0;
 
@@ -153,11 +191,11 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const targetPage = document.getElementById('page' + pageNumber);
         if(targetPage) targetPage.classList.add('active');
-        if (pageNumber === 2) typeEffect("text2", "Since you came into my life🫂, everything became more beautiful😘💕. <br>You are my peace🥰, my happiness🥹, my forever💕😘", "btn2");
+        if (pageNumber === 2) typeEffect("text2", "Since you came into my life🫂, everything became more beautiful😘💕. <br>You are my peace🥰, my happiness🥹, my forever💕😘 chloo💋", "btn2");
         if (pageNumber === 3) typeEffect("text3", "You are the calm in my chaos😘 and the smile in my every day🥰 <br><br>" +
                 "In a world full of temporary things🫂, you are my forever💕 <br><br>" +
-                "I don't just want you in this life in AkhirahI want you in Jannah too ✨ I pray that Allah blesses our journey and grants us a home filled with happiness, where we grow together and raise our babies 🫂 with a love that leads us both to Jannah. 🤲 <br><br>" +
-                "Even in Paradise🫶, among all its wonders, my eyes will still only look for you. I want to walk through the gates of Jannah together, hand in hand🤝, loving you for all of eternity💫chloo😘", "btn3");
+                "I don't just want you in this life in Akhirah & I want you in Jannah too🥹✨ I pray that Allah blesses our journey and grants us a home filled with happiness, where we grow together and raise our babies 🫂 with a love that leads us both to Jannah. 🤲 <br><br>" +
+                "Even in Paradise🫶, among all its wonders, my eyes will still only look for you. I want to walk through the gates of Jannah together, hand in hand🤝, loving you for all of eternity💫machaa😘", "btn3");
     }
 
     function moveYes() {
@@ -169,7 +207,7 @@
     }
 
     function moveNo() {
-        alert("You must choose YES only! 😡 No option is not allowed! 🙅‍♀️🏃💨");
+        alert("You must choose YES only! 😡 No option is not allowed for you! 🙅‍♀️ Stay with me forever, baby! 🏃💨");
         let b = document.getElementById("noBtn");
         let x = Math.random() * (window.innerWidth - b.offsetWidth);
         let y = Math.random() * (window.innerHeight - b.offsetHeight);
@@ -194,39 +232,47 @@
 
     function openLetter() {
         document.getElementById("letterContainer").style.display = "none";
-        showPage(4);
+        document.getElementById("blueNotePopup").style.display = "block"; 
     }
 
-        function finalAnimationSequence() {
+    function showFailedPopup() {
+        document.getElementById("blueNotePopup").style.display = "none";
+        document.getElementById("failedPopup").style.display = "block";
+    }
+
+    function backToBlueNote() {
+        document.getElementById("failedPopup").style.display = "none";
+        document.getElementById("blueNotePopup").style.display = "block";
+    }
+
+    function goToMemories() {
+        document.getElementById("blueNotePopup").style.display = "none";
+        showPage(4); 
+    }
+
+    function finalAnimationSequence() {
         const overlay = document.getElementById("hugOverlay");
         const emoji = document.getElementById("emojiDisplay");
         overlay.style.display = "flex";
 
-        // Step 1: Show the Hug (🫂) with zoom animation
         emoji.innerHTML = "🫂";
         emoji.className = "zoom-anim";
 
-        // Step 2: After 2.5 seconds, switch to Kiss (😘)
         setTimeout(() => {
             emoji.innerHTML = "😘"; 
-            
-            // This part forces the zoom animation to restart for the Kiss
             emoji.classList.remove("zoom-anim");
-            void emoji.offsetWidth; // This "magic" line triggers the refresh
+            void emoji.offsetWidth; 
             emoji.classList.add("zoom-anim");
-            
-            triggerFly('💋'); // Flying lipmarks
+            triggerFly('💋'); 
 
-            // Step 3: Final message after another 2.5 seconds
             setTimeout(() => {
                 overlay.style.display = "none";
                 const btn = document.getElementById("finalBtn");
-                btn.innerHTML = "I love you so much, my everything! 😚";
+                btn.innerHTML = "I love you so soo muchhh, my everything!😚";
                 btn.onclick = () => location.reload(); 
             }, 2500);
         }, 2500);
     }
-
 
     function openZoom(src, imgKey) {
         document.getElementById("modal").style.display = "flex";
@@ -237,6 +283,9 @@
 </script>
 </body>
 </html>
+
+
+
 
 
 
